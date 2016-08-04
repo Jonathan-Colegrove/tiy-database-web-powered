@@ -3,15 +3,20 @@
   <head>
     <meta charset="utf-8">
     <title>Added a Person</title>
+    <link rel="stylesheet" href="/css/main.css">
   </head>
   <body>
     <h1>Hooray! We added a person</h1>
 
     <ul>
-      <li>Name: <%= "SOMETHING GOES HERE" %></li>
-      <li>Address: <%= "SOMETHING GOES HERE" %></li>
-      <!-- <li>In their own <li>s add other attributes of a person here </li> -->
-      <!-- e.g. there should be as many <li> as there are attributes of a person -->
+      <li>Name: <%= person.name %></li>
+      <li>Phone: <%= person.phone_number %></li>
+      <li>Address: <%= person.address %></li>
+      <li>Position: <%= person.position %></li>
+      <li>Salary: $<%= person.salary %></li>
+      <li>Slack Account: <%= person.slack_account %></li>
+      <li>Github Account: <%= person.github_account %></li>
     </ul>
+    <button><a href="/">HOME</a></button>
   </body>
 </html>

@@ -3,14 +3,21 @@
   <head>
     <meta charset="utf-8">
     <title>Add a Person</title>
+    <link rel="stylesheet" href="/css/main.css">
   </head>
   <body>
+    <h1>Who should we add?</h1>
     <form class="" action="/add" method="get">
-      <input name="name" type="text">
-      <input name="phone_number" type="text">
-      <!-- You do the rest here -->
+      <p>Name <input name="name" type="text"></p>
+      <p>Phone <input name="phone_number" type="text"></p>
+      <p>Address <input name="address" type="text"></p>
+      <p>Position <input name="position" type="text"></p>
+      <p>Salary $<input name="salary" type="text"></p>
+      <p>Slack Account <input name="slack_account" type="text"></p>
+      <p>Github Account <input name="github_account" type="text"></p>
 
-      <input type="submit" value="Save">
+      <input type="submit" value="Add">
     </form>
+    <button><a href="/">HOME</a></button>
   </body>
 </html>

@@ -1,6 +1,4 @@
 require 'csv'
-
-# Load in the person class
 require_relative "person"
 
 
@@ -40,9 +38,13 @@ class Database
   end
 
   def delete(name)
-    @people.delete_if { |person| person.name == name }
+    person = @people.find { |person| person.name == name }
+
+    @people.delete(person)
 
     save_to_csv
+
+    return person
   end
 
   def search(name)

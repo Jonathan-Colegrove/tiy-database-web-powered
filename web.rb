@@ -1,9 +1,6 @@
 require 'webrick'
-
-# How we require another ruby script from our directory
 require_relative 'database'
 
-# Our global (yeah, yeah, I know I said never to use them) database
 $database = Database.new
 
 class HomePage < WEBrick::HTTPServlet::AbstractServlet
@@ -34,15 +31,19 @@ class AddPerson < WEBrick::HTTPServlet::AbstractServlet
   def do_GET(request, response)
     name = request.query["name"]
     phone_number = request.query["phone_number"]
-    # You do the rest here
-    address = ""
-    position = ""
-    salary = ""
-    slack_account = ""
-    github_account = ""
+    address = request.query["address"]
+    position = request.query["position"]
+    salary = request.query["salary"]
+    slack_account = request.query["slack_account"]
+    github_account = request.query["github_account"]
 
-    # Add the person
-    # person = $database.SOME_METHOD_HERE
+    person = $database.add(name,
+                          phone_number,
+                          address,
+                          position,
+                          salary,
+                          slack_account,
+                          github_account)
 
     erb_template_string = File.read("added.html.erb")
     template = ERB.new(erb_template_string)
@@ -68,12 +69,39 @@ end
 
 class SearchPerson < WEBrick::HTTPServlet::AbstractServlet
   def do_GET(request, response)
-    name = "" # <<== replace this with getting the name from the request
+    name = request.query["name"]
 
-    # Find the person (you figure out what method to call, some_method_here is wrong)
-    person = $database.some_method_here(name)
+    person = $database.search(name)
 
-    erb_template_string = File.read("search-results.html.erb")
+    erb_template_string = File.read("search-result.html.erb")
+    template = ERB.new(erb_template_string)
+    output   = template.result(binding)
+
+    response.body = output
+    response.content_type = "text/html"
+    response.status = 200
+  end
+end
+
+class PromptToDeletePerson < WEBrick::HTTPServlet::AbstractServlet
+  def do_GET(request, response)
+    erb_template_string = File.read("prompt-to-delete.html.erb")
+    template = ERB.new(erb_template_string)
+    output   = template.result(binding)
+
+    response.body = output
+    response.content_type = "text/html"
+    response.status = 200
+  end
+end
+
+class DeletePerson < WEBrick::HTTPServlet::AbstractServlet
+  def do_GET(request, response)
+    name = request.query["name"]
+
+    person = $database.delete(name)
+
+    erb_template_string = File.read("deleted.html.erb")
     template = ERB.new(erb_template_string)
     output   = template.result(binding)
 
@@ -91,5 +119,11 @@ server.mount "/add", AddPerson
 server.mount "/prompt-to-search", PromptToSearchPerson
 server.mount "/search", SearchPerson
 
-# See if you can implement delete!!!
+server.mount "/prompt-to-delete", PromptToDeletePerson
+server.mount "/delete", DeletePerson
+
+# Serve anything in css as a file handler, those files are in ./css folder
+server.mount "/css", WEBrick::HTTPServlet::FileHandler, './css'
+server.mount "/images", WEBrick::HTTPServlet::FileHandler, './images'
+
 server.start

@@ -2,15 +2,15 @@
 <html>
   <head>
     <meta charset="utf-8">
-    <title>Found a Person</title>
+    <title>Employee Removed</title>
     <link rel="stylesheet" href="/css/main.css">
   </head>
   <body>
 
     <% if person %>
-      <h1>Hooray! We found <%= person.name %></h1>
+      <h1>Employee Removed</h1>
 
-      <ul>
+      <ul class = "delete">
         <li>Name: <%= person.name %></li>
         <li>Phone: <%= person.phone_number %></li>
         <li>Address: <%= person.address %></li>
@@ -21,11 +21,11 @@
       </ul>
 
     <% else %>
-      <h1>Employee Not Found !</h1>
-      <form class="" action="/search" method="get">
-        <p>Who are we looking for? <input name="name" type="text"></p>
-        <input type="submit" value="Search">
-      </form>
+    <h1>Employee Not Found !</h1>
+    <form class="" action="/delete" method="get">
+      <p>Who are we looking for? <input name="name" type="text"></p>
+      <input type="submit" value="Delete">
+    </form>
     <% end %>
     <button><a href="/">HOME</a></button>
   </body>
